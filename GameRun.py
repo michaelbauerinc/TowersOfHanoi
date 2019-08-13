@@ -3,7 +3,8 @@ from node import Node
 import pygame
 import time
 from time import sleep
-import os, sys
+import os
+import sys
 
 if getattr(sys, 'frozen', False):
     os.chdir(os.path.dirname(sys.executable))
@@ -13,7 +14,7 @@ pygame.init()
 display_width = 445
 display_height = 550
 
-black = (0,0,0)
+black = (0, 0, 0)
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 run = True
@@ -34,8 +35,6 @@ pygame.display.set_caption('TowersOfHanoi')
 clock = pygame.time.Clock()
 
 
-
-
 firstTower = Node(65)
 secondTower = Node(189)
 thirdTower = Node(313)
@@ -51,23 +50,27 @@ nextLocation = currentLocation.get_next_node()
 previousLocation = currentLocation.get_previous_node()
 diskLocation = None
 
+
 class Image(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
         self.image = pygame.image.load(image_file)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+
 
 def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
 
+
 def message_display(text):
     gameDisplay.blit(BackGround.image, BackGround.rect)
-    largeText = pygame.font.Font('freesansbold.ttf',15)
+    largeText = pygame.font.Font('freesansbold.ttf', 15)
     TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((display_width/2),(460))
+    TextRect.center = ((display_width/2), (460))
     gameDisplay.blit(TextSurf, TextRect)
+
 
 def gameStart():
     global start
@@ -80,12 +83,10 @@ def gameStart():
     del screenContent[Three.image]
     del screenContent[Four.image]
 
-
     BottomDisk.rect.left = 34
     MiddleDisk.rect.left = 47
     ThirdDisk.rect.left = 58
     TopDisk.rect.left = 68
-
 
     num_optimal_moves = (2 ** num_disks) - 1
     message = "Optimal solution: {} moves. Goodluck!".format(num_optimal_moves)
@@ -125,6 +126,7 @@ def gameStart():
         gameWinNum = left_stack.get_size()
         screenRefresh()
     message = "Choose disk to move."
+
 
 def checkTower():
     global message
@@ -184,6 +186,7 @@ def checkTower():
             moving = True
 
     screenRefresh()
+
 
 def moveDisk():
     global message
@@ -252,7 +255,8 @@ def moveDisk():
 
     if right_stack.get_size() == gameWinNum:
         gameWin = True
-        message = "You win in {0} moves. Optimal number is {1}".format(turnCount, num_optimal_moves)
+        message = "You win in {0} moves. Optimal number is {1}".format(
+            turnCount, num_optimal_moves)
         screenRefresh()
         sleep(2.0)
         message = "Press space to play again."
@@ -263,6 +267,7 @@ def moveDisk():
     left_stack.print_items()
     middle_stack.print_items()
     right_stack.print_items()
+
 
 def calculateSpacesToMove(diskTracker, spacesToMove=0, spacesToMoveNeg=0, firstFlag=False, secondFlag=False):
     if diskTracker == currentLocation and spacesToMoveNeg < 0:
@@ -293,7 +298,6 @@ def calculateSpacesToMove(diskTracker, spacesToMove=0, spacesToMoveNeg=0, firstF
         return calculateSpacesToMove(diskTracker, spacesToMove, spacesToMoveNeg, firstFlag)
 
 
-
 def diskAnimation(disk):
     global diskLocation
     spacesToMovePos = 0
@@ -322,12 +326,14 @@ def diskAnimation(disk):
     diskToAnimate.rect.left += xcoord
     diskLocation = currentLocation
 
+
 def screenRefresh():
     gameDisplay.blit(BackGround.image, BackGround.rect)
     message_display(message)
     for key, value in screenContent.items():
         gameDisplay.blit(key, value)
     pygame.display.update()
+
 
 def resetPointer():
     global currentLocation
@@ -343,6 +349,7 @@ def resetPointer():
     nextLocation = currentLocation.get_next_node()
     previousLocation = currentLocation.get_previous_node()
 
+
 def restart_program():
     global choosingMode
     global start
@@ -351,7 +358,6 @@ def restart_program():
     global screenContent
     global num_disks
     global turnCount
-
 
     if num_disks == 4:
         TopDisk.rect.left -= 68
@@ -370,8 +376,9 @@ def restart_program():
     turnCount = 0
     resetPointer()
 
-#ASSETS
-BackGround = Image('background.png', [0,0])
+
+# ASSETS
+BackGround = Image('background.png', [0, 0])
 BottomDisk = Image("bottomdisk.png", [34, 292])
 MiddleDisk = Image("middledisk.png", [47, 262])
 ThirdDisk = Image("thirddisk.png", [58, 233])
@@ -379,8 +386,6 @@ TopDisk = Image("topdisk.png", [68, 204])
 Pointer = Image("selecttriangle.png", [65, 90])
 Three = Image("three.png", [44, 200])
 Four = Image("four.png", [167, 200])
-
-
 
 
 message_display("Towers of Hanoi! Press space to play.")
@@ -394,7 +399,6 @@ right_stack = Stack("Right")
 
 
 while run:
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
