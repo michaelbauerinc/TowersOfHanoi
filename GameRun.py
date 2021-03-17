@@ -263,10 +263,10 @@ def moveDisk():
 
     screenRefresh()
 
-    print("DEBUG:")
-    left_stack.print_items()
-    middle_stack.print_items()
-    right_stack.print_items()
+    # print("DEBUG:")
+    # left_stack.print_items()
+    # middle_stack.print_items()
+    # right_stack.print_items()
 
 
 def calculateSpacesToMove(diskTracker, spacesToMove=0, spacesToMoveNeg=0, firstFlag=False, secondFlag=False):
@@ -449,10 +449,10 @@ while run:
                     screenRefresh()
                 elif event.key == pygame.K_SPACE and not moving:
                     checkTower()
-                    print(str(currentLocation.get_value()))
+                    # print(str(currentLocation.get_value()))
                 elif event.key == pygame.K_SPACE and moving:
                     moveDisk()
-                    print(str(currentLocation.get_value()))
+                    # print(str(currentLocation.get_value()))
         elif choosingMode and start and gameWin:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
